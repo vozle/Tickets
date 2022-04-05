@@ -4,6 +4,7 @@ import ru.netology.domain.Ticket;
 import ru.netology.repository.TicketRepository;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class TicketManager {
     private TicketRepository repository;
@@ -14,6 +15,21 @@ public class TicketManager {
 
     public void add(Ticket ticket) {
         repository.save(ticket);
+    }
+
+    public Ticket[] findAllWithBestTime(String deportation, String destination, Comparator<Ticket> comparator) {
+        Ticket[] result = new Ticket[0];
+        for (Ticket ticket : repository.findAll()) {
+            if (ticket.matches(deportation, destination)) {
+                int length = result.length + 1;
+                Ticket[] tmp = new Ticket[length];
+                System.arraycopy(result, 0, tmp, 0, result.length);
+                tmp[tmp.length - 1] = ticket;
+                result = tmp;
+            }
+        }
+        Arrays.sort(result, comparator);
+        return result;
     }
 
     public Ticket[] findAll(String deportation, String destination) {

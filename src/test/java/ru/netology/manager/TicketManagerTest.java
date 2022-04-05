@@ -3,6 +3,7 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Ticket;
+import ru.netology.domain.TicketByTimeAscComparator;
 import ru.netology.repository.TicketRepository;
 
 import java.util.Arrays;
@@ -15,8 +16,8 @@ class TicketManagerTest {
 
     private Ticket first = new Ticket(1, 2199, "SVO", "KZN", 95);
     private Ticket second = new Ticket(2, 1299, "VKO", "KZN", 95);
-    private Ticket third = new Ticket(3, 6651, "SVO", "KZN", 105);
-    private Ticket fourth = new Ticket(4, 3940, "SVO", "KZN", 110);
+    private Ticket third = new Ticket(3, 6651, "SVO", "KZN", 94);
+    private Ticket fourth = new Ticket(4, 3940, "SVO", "KZN", 99);
     private Ticket fifth = new Ticket(5, 10339, "DME", "KJA", 435);
 
     @BeforeEach
@@ -58,6 +59,16 @@ class TicketManagerTest {
     void shouldSortKRRToEKTByPrice() {
         Ticket[] actual = manager.findAll("KRR", "EKT");
         Ticket[] expected = {};
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldSortBestTimeFromSVOToKZN() {
+        TicketByTimeAscComparator time = new TicketByTimeAscComparator();
+
+        Ticket[] actual = manager.findAllWithBestTime("SVO", "KZN", time);
+        Ticket[] expected = {third, first, fourth};
 
         assertArrayEquals(expected, actual);
     }
