@@ -68,7 +68,7 @@ class TicketManagerTest {
         TicketByTimeAscComparator time = new TicketByTimeAscComparator();
 
         Ticket[] actual = manager.findAllWithBestTime("SVO", "KZN", time);
-        Ticket[] expected = {third,first,fourth};
+        Ticket[] expected = {third, first, fourth};
 
         assertArrayEquals(expected, actual);
     }
